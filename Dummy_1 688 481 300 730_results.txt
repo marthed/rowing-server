@@ -1,9 +1,0 @@
-method,mode,coin,time,direction,distance
-Feet,_2D,2,8,Forward,Short
-Feet,_2D,3,19,Right,Short
-Feet,_2D,4,14,Forward,Short
-Feet,_2D,5,15,Forward,Medium
-Feet,_2D,6,7,Right,Short
-Feet,_2D,7,18,Forward,Medium
-Feet,_2D,8,13,Forward,Short
-Feet,_2D,9,19,Right,Short

@@ -1,7 +1,10 @@
 const http = require("http");
 const fs = require("fs");
+const moment = require("moment");
 
-// Create a server
+const timezone = "Europe/Stockholm";
+const participant = "Dummy";
+
 const server = http.createServer((req, res) => {
   if (req.method === "POST") {
     let body = "";
@@ -13,17 +16,15 @@ const server = http.createServer((req, res) => {
 
     // Process the collected data
     req.on("end", () => {
-      // Write the data to a file
       const data = decodeURIComponent(body);
 
-      const participant = "Dummy";
-      const formattedDateTime = Date.now().toLocaleString("sv-SE", {
-        timeZone: "Europe/Stockholm",
-      });
-      console.log(`Current date and time in Stockholm: ${formattedDateTime}`);
+      const formattedDateTime = moment
+        .utc()
+        .local()
+        .format("YYYY-MM-DD HH:mm:ss");
 
       const fileName = participant + "_" + formattedDateTime + "_results.txt";
-      fs.writeFile(fileName, data, (err) => {
+      fs.writeFile("results/" + fileName, data, (err) => {
         if (err) {
           console.error(err);
           res.statusCode = 500;
