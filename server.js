@@ -10,6 +10,12 @@ const routeMap = {
   "/": "static/index.html",
 };
 
+const methodMapping = {
+  feet: 100,
+  head: 200,
+  hand: 300,
+};
+
 const socket = dgram.createSocket("udp4");
 
 const serverAddress = "192.168.195.119";
@@ -57,11 +63,12 @@ async function HandlePOST(req, res) {
 
       req.on("end", () => {
         try {
-          const jsonData = JSON.parse(body);
+          const data = decodeURIComponent(body);
+          const jsonData = JSON.parse(data);
           console.log("Received JSON data:", jsonData);
 
           socket.send(
-            "me;" + jsonData.method,
+            "me;" + methodMapping[jsonData.method],
             serverPort,
             serverAddress,
             (error) => {
