@@ -10,10 +10,17 @@ const routeMap = {
   "/": "static/index.html",
 };
 
-const methodMapping = {
+const prefixMapping = {
+  "/method": "me",
+  "/travel": "tr",
+};
+
+const codeMappings = {
   feet: 100,
   head: 200,
   hand: 300,
+  _2D: 400,
+  _3D: 500,
 };
 
 const socket = dgram.createSocket("udp4");
@@ -54,7 +61,7 @@ async function HandleGET(req, res) {
 async function HandlePOST(req, res) {
   try {
     console.log("Incoming post request: " + req.url);
-    if (req.url === "/method") {
+    if (req.url === "/method" || req.url === "/travel") {
       let body = "";
 
       req.on("data", (chunk) => {
@@ -68,7 +75,7 @@ async function HandlePOST(req, res) {
           console.log("Received JSON data:", jsonData);
 
           socket.send(
-            "me;" + methodMapping[jsonData.method],
+            `${prefixMapping[req.url]};${codeMappings[jsonData.value]}`,
             serverPort,
             serverAddress,
             (error) => {
@@ -76,7 +83,7 @@ async function HandlePOST(req, res) {
                 console.error("Error while sending UDP message:", error);
               } else {
                 console.log(
-                  "UDP message with: " + jsonData.method + " sent successfully!"
+                  "UDP message with: " + jsonData.value + " sent successfully!"
                 );
               }
             }

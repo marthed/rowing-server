@@ -23,19 +23,20 @@
   <div id="main">
     <div class="setting">
       <label for="method">Choose a steering method:</label>
-      <select name="Method" id="method" onchange="selectMethod(event)">
+      <select name="Method" id="method">
         <option value="head">Head</option>
         <option value="hand">Hand</option>
         <option value="feet">Feet</option>
       </select>
     </div>
+    <div class="setting">
+      <label for="travel">Choose a travel method:</label>
+      <select name="Travel" id="travel">
+        <option value="_2D">2D</option>
+        <option value="_3D">3D</option>
+      </select>
+    </div>
   </div>
-  <script>
-    function selectMethod(event) {
-      console.log(event.target.value)
-      WebAPI.POST("http://localhost:3000/method", { method: event.target.value })
-    }
-  </script>
   <script>
     const WebAPI = {
       POST(url, data) {
@@ -46,18 +47,27 @@
         },
         body: JSON.stringify(data)
       })
-      .then(response => response && response.json())
       .then(result => {
         // Do something with the response
-        console.log(result);
+      }).catch(e => {
+        console.log(e);
       })
-      .catch(error => {
-        // Handle any errors
-        console.error('Error:', error);
-      });
       }
     }
+  </script>
+  <script>
+    function selectMethod(event) {
+      WebAPI.POST("http://localhost:3000/method", { value: event.target.value })
+    }
+    function selectTravel(event) {
+      console.log(event.target.value)
+      WebAPI.POST("http://localhost:3000/travel", { value: event.target.value })
+    }
+
+  document.getElementById('method').addEventListener('change', selectMethod);
+  document.getElementById('travel').addEventListener('change', selectTravel);
 
   </script>
+ 
 </body>
 </html>
