@@ -13,6 +13,7 @@ const routeMap = {
 const prefixMapping = {
   "/method": "me",
   "/travel": "tr",
+  "/next": "gs",
 };
 
 const codeMappings = {
@@ -99,6 +100,28 @@ async function HandlePOST(req, res) {
           res.end("Error parsing JSON data");
         }
       });
+      return;
+    } else if (req.url === "/next") {
+      socket.send(
+        `${prefixMapping[req.url]}`,
+        serverPort,
+        serverAddress,
+        (error) => {
+          if (error) {
+            console.error("Error while sending UDP message:", error);
+          } else {
+            console.log(
+              `UDP message with ${
+                prefixMapping[req.url]
+              } sent to ${serverAddress}:${serverPort}`
+            );
+          }
+        }
+      );
+
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/plain");
+      res.end("POST request received successfully!");
       return;
     }
 
