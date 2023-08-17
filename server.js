@@ -14,6 +14,7 @@ const prefixMapping = {
   "/method": "me",
   "/travel": "tr",
   "/next": "gs",
+  "/track": "tk",
 };
 
 const codeMappings = {
@@ -22,11 +23,19 @@ const codeMappings = {
   hand: 300,
   _2D: 400,
   _3D: 500,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
 };
+
+let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.195.119";
+const serverAddress = "192.168.227.119";
 const serverPort = 1234;
 
 // Close the socket when finished
@@ -55,14 +64,18 @@ async function HandleGET(req, res) {
       res.end();
     });
   } else {
-    response.end("<h1>Sorry, page not found</h1>");
+    res.end("<h1>Sorry, page not found</h1>");
   }
 }
 
 async function HandlePOST(req, res) {
   try {
     console.log("Incoming post request: " + req.url);
-    if (req.url === "/method" || req.url === "/travel") {
+    if (
+      req.url === "/method" ||
+      req.url === "/travel" ||
+      req.url === "/track"
+    ) {
       let body = "";
 
       req.on("data", (chunk) => {
@@ -123,39 +136,67 @@ async function HandlePOST(req, res) {
       res.setHeader("Content-Type", "text/plain");
       res.end("POST request received successfully!");
       return;
-    }
+    } else if (req.url === "/state") {
+      console.log("Current state received");
 
-    let body = "";
-    // Collect data from the request
-    req.on("data", (chunk) => {
-      body += chunk;
-    });
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
 
-    // Process the collected data
-    req.on("end", () => {
-      console.log("Data received");
-      const data = decodeURIComponent(body);
+      req.on("end", () => {
+        try {
+          const data = decodeURIComponent(body);
 
-      const formattedDateTime = moment
-        .utc()
-        .local()
-        .format("YYYY-MM-DD HH:mm:ss");
+          console.log("Current game state: " + data);
+          currentGameState = data;
 
-      const fileName = participant + "_" + formattedDateTime + "_results.txt";
+          //const stateData = data.split(";");
 
-      console.log("Writing: " + fileName + " to disk...");
-      fs.writeFile("results/" + fileName, data, (err) => {
-        if (err) {
-          console.error(err);
-          res.statusCode = 500;
-          res.end("Error writing to file");
-        } else {
-          console.log("Complete");
           res.statusCode = 200;
-          res.end("Data written to file");
+          res.setHeader("Content-Type", "text/plain");
+          res.end("POST request received successfully!");
+        } catch (error) {
+          console.log(error);
+          res.statusCode = 400;
+          res.setHeader("Content-Type", "text/plain");
+          res.end("Error parsing JSON data");
         }
       });
-    });
+      return;
+    } else if (req.url === "/trail") {
+      let body = "";
+      // Collect data from the request
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
+
+      // Process the collected data
+      req.on("end", () => {
+        console.log("Data received");
+        const data = decodeURIComponent(body);
+
+        const formattedDateTime = moment
+          .utc()
+          .local()
+          .format("YYYY-MM-DD HH:mm:ss");
+
+        const fileName = participant + "_" + formattedDateTime + "_results.txt";
+
+        console.log("Writing: " + fileName + " to disk...");
+        fs.writeFile("results/" + fileName, data, (err) => {
+          if (err) {
+            console.error(err);
+            res.statusCode = 500;
+            res.end("Error writing to file");
+          } else {
+            console.log("Complete");
+            res.statusCode = 200;
+            res.end("Data written to file");
+          }
+        });
+      });
+    }
   } catch (e) {
     console.log(e);
   }

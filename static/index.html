@@ -43,8 +43,18 @@
     </div>
     <div class="setting">
       <label for="next">Go to next state:</label>
-      <button id="next"></button>
-
+      <button id="next">Next</button>
+    </div>
+    <div class="setting">
+      <label for="track">Choose a Track:</label>
+      <select name="Track" id="track">
+        <option value="1">1:2D</option>
+        <option value="2">2:2D</option>
+        <option value="3">3:2D</option>
+        <option value="4">4:3D</option>
+        <option value="5">5:3D</option>
+        <option value="6">6:3D</option>
+      </select>
     </div>
   </div>
   <script>
@@ -77,9 +87,25 @@
       WebAPI.POST("http://localhost:3000/next")
     }
 
+
+    function selectTrack(event) {
+      const track = Number(event.target.value);
+
+      if (track < 4) {
+        document.getElementById("travel").value = "_2D";
+        selectTravel({ target: { value: "_2D" }});
+      }
+      else {
+        document.getElementById("travel").value = "_3D";
+        selectTravel({ target: { value: "_3D" }});
+      }
+      WebAPI.POST("http://localhost:3000/track", { value: track });
+    }
+
   document.getElementById('method').addEventListener('change', selectMethod);
   document.getElementById('travel').addEventListener('change', selectTravel);
   document.getElementById("next").addEventListener("click", GoToNextState);
+  document.getElementById("track").addEventListener("change", selectTrack);
 
   </script>
  
