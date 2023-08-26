@@ -1,0 +1,17 @@
+method,mode,hit,coin,time,direction,altitude,x,y,z,missdistance,traveldistance
+Hand,_3D,True,0,0,Straight,Same,0,3,30,0
+Hand,_3D,True,1,8.879999,Straight,Same,0,3,180,0
+Hand,_3D,True,2,15.96,Right,Same,129.9038,3,255,0
+Hand,_3D,True,3,23.94,Left,Up,129.9038,8.234924,404.9086,0
+Hand,_3D,True,4,31.1,Straight,Up,129.9038,13.46985,554.8173,0
+Hand,_3D,True,5,36.8,Straight,Up,129.9038,18.70477,704.7259,0
+Hand,_3D,True,6,42.48,Straight,Up,129.9038,23.9397,854.6345,0
+Hand,_3D,True,7,49.8,Right,Up,259.8076,26.55716,929.5889,0
+Hand,_3D,True,8,56.5,Left,Up,259.8472,31.79208,1079.498,0
+Hand,_3D,True,9,62.1,Left,Down,129.9632,29.17343,1154.486,0
+Hand,_3D,True,10,68.2,Straight,Down,0.05940247,26.55596,1229.44,0
+Hand,_3D,True,11,74.64,Right,Down,0.01984338,21.32104,1379.349,0
+Hand,_3D,False,12,83.25999,Straight,Down,-0.01973983,16.08611,1529.258,5.383783
+Hand,_3D,True,13,86.48,Straight,Down,-0.05934716,10.85119,1679.166,0
+Hand,_3D,True,14,92.03999,Straight,Down,-0.09897862,5.616267,1829.075,0
+Hand,_3D,False,15,100.64,Right,Same,129.785,5.616267,1904.109,7.200659
