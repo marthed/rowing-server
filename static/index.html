@@ -56,6 +56,10 @@
         <option value="6">6:3D</option>
       </select>
     </div>
+    <div class="setting">
+      <label for="inverted">Toggle Inverted:</label>
+      <button id="inverted">Toggle</button>
+    </div>
   </div>
   <script>
     const WebAPI = {
@@ -87,6 +91,10 @@
       WebAPI.POST("http://localhost:3000/next")
     }
 
+    function ToggleInverted(event) {
+      WebAPI.POST("http://localhost:3000/inverted")
+    }
+
 
     function selectTrack(event) {
       const track = Number(event.target.value);
@@ -106,6 +114,7 @@
   document.getElementById('travel').addEventListener('change', selectTravel);
   document.getElementById("next").addEventListener("click", GoToNextState);
   document.getElementById("track").addEventListener("change", selectTrack);
+  document.getElementById("inverted").addEventListener("click", ToggleInverted);
 
   </script>
  

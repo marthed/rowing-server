@@ -4,7 +4,8 @@ const moment = require("moment");
 const dgram = require("dgram");
 
 const timezone = "Europe/Stockholm";
-const participant = "Dummy";
+
+const participant = "P6";
 
 const routeMap = {
   "/": "static/index.html",
@@ -15,6 +16,7 @@ const prefixMapping = {
   "/travel": "tr",
   "/next": "gs",
   "/track": "tk",
+  "/inverted": "in",
 };
 
 const codeMappings = {
@@ -35,7 +37,7 @@ let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.227.119";
+const serverAddress = "192.168.227.218";
 const serverPort = 1234;
 
 // Close the socket when finished
@@ -114,7 +116,7 @@ async function HandlePOST(req, res) {
         }
       });
       return;
-    } else if (req.url === "/next") {
+    } else if (req.url === "/next" || req.url === "/inverted") {
       socket.send(
         `${prefixMapping[req.url]}`,
         serverPort,
