@@ -5,7 +5,7 @@ const dgram = require("dgram");
 
 const timezone = "Europe/Stockholm";
 
-const participant = "P17";
+const participant = "P18";
 
 const routeMap = {
   "/": "static/index.html",
@@ -37,7 +37,12 @@ let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.227.218";
+const serverAddress = "192.168.82.218";
+
+//"192.168.227.214" nr 2
+
+// 192.168.227.218 nr 1
+
 const serverPort = 1234;
 
 // Close the socket when finished
