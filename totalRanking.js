@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const resultsFolderPath = "./results";
+const resultsFolderPath = "./broom_results";
 
 let participantData = [];
 let totalScores = {}; // To keep track of total scores across all categories
