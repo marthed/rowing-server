@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "nmap": "^1.1.0",
+    "node-nmap": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

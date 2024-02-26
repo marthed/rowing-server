@@ -5,10 +5,10 @@ const dgram = require("dgram");
 
 const timezone = "Europe/Stockholm";
 
-const participant = "P24";
+let participant = "P_DEMO";
 
 const routeMap = {
-  "/": "static/index.html",
+  "/": "static/index.rowing.html",
 };
 
 const prefixMapping = {
@@ -37,11 +37,7 @@ let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.82.218";
-
-//"192.168.227.214" nr 2
-
-// 192.168.227.218 nr 1
+const serverAddress = "192.168.194.119";
 
 const serverPort = 1234;
 
@@ -203,6 +199,26 @@ async function HandlePOST(req, res) {
           }
         });
       });
+    } else if (req.url === "/participant") {
+      let body = "";
+      // Collect data from the request
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
+
+      // Process the collected data
+      req.on("end", () => {
+        console.log("Data received");
+        const data = decodeURIComponent(body);
+        const { value } = JSON.parse(data);
+
+        console.log("Setting new participant name: ", value);
+
+        participant = value;
+
+        res.statusCode = 200;
+        res.end("Participant name updated");
+      });
     }
   } catch (e) {
     console.log(e);
@@ -210,6 +226,9 @@ async function HandlePOST(req, res) {
 }
 
 const server = http.createServer((req, res) => {
+  console.log("\n Incoming request...");
+  console.log("Current participant: ", participant);
+
   if (req.method === "GET") {
     HandleGET(req, res);
   } else if (req.method === "POST") {

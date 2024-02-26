@@ -60,6 +60,9 @@
       <label for="inverted">Toggle Inverted:</label>
       <button id="inverted">Toggle</button>
     </div>
+    <div class="setting"></div>
+      <label for="participant">Participant Name: </label>
+      <input id="participant" type="text" />
   </div>
   <script>
     const WebAPI = {
@@ -95,6 +98,11 @@
       WebAPI.POST("http://localhost:3000/inverted")
     }
 
+    function SetParticipantName(event) {
+      console.log(event.target.value);
+      WebAPI.POST("http://localhost:3000/participant", { value: event.target.value })
+    }
+
 
     function selectTrack(event) {
       const track = Number(event.target.value);
@@ -115,6 +123,7 @@
   document.getElementById("next").addEventListener("click", GoToNextState);
   document.getElementById("track").addEventListener("change", selectTrack);
   document.getElementById("inverted").addEventListener("click", ToggleInverted);
+  document.getElementById("participant").addEventListener("change", SetParticipantName);
 
   </script>
  
