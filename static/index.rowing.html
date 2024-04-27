@@ -23,9 +23,25 @@
     min-height: 16px;
   }
 
+  #current-state {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
+    color: white;
+    margin-bottom: 6px;
+  }
+
+  input {
+    border: 0px;
+  }
+
 </style>
 <body>
   <div id="main">
+    <div id="current-state">SETUP</div>
     <div class="setting">
       <label for="method">Choose a steering method:</label>
       <select name="Method" id="method">
@@ -60,14 +76,17 @@
       <label for="inverted">Toggle Inverted:</label>
       <button id="inverted">Toggle</button>
     </div>
-    <div class="setting"></div>
+    <div class="setting">
       <label for="participant">Participant Name: </label>
       <input id="participant" type="text" />
+    </div>
   </div>
+  <div><button id="get_scores">Update Scores</button></div>
+  <div id="scores">SCORES:</div>
   <script>
     const WebAPI = {
       POST(url, data) {
-        fetch(url, {
+        return fetch(url, {
           method: 'POST',
           headers: {
           'Content-Type': 'application/json'
@@ -79,9 +98,18 @@
       }).catch(e => {
         console.log(e);
       })
-      }
+      },
+      GET(url) {
+        return fetch(url, {
+          method: 'GET',
+          headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((res) => res.text()).catch(e => console.log(e))
+    },
     }
   </script>
+
   <script>
     function selectMethod(event) {
       WebAPI.POST("http://localhost:3000/method", { value: event.target.value })
@@ -101,6 +129,10 @@
     function SetParticipantName(event) {
       console.log(event.target.value);
       WebAPI.POST("http://localhost:3000/participant", { value: event.target.value })
+    }
+
+    function GetScores() {
+      WebAPI.GET("http://localhost:3000/scores").then(res => console.log(res));
     }
 
 
@@ -124,8 +156,24 @@
   document.getElementById("track").addEventListener("change", selectTrack);
   document.getElementById("inverted").addEventListener("click", ToggleInverted);
   document.getElementById("participant").addEventListener("change", SetParticipantName);
+  document.getElementById("get_scores").addEventListener("click", GetScores)
 
   </script>
+
+<script>
+  let currentGameSate = "SETUP";
+
+    setInterval(() => {
+      WebAPI.GET("http://localhost:3000/state").then((res) =>  {
+        console.log(res);
+        if (res !== currentGameSate) {
+        currentGameSate = res;
+        document.getElementById("current-state").innerHTML = "STATE: " + currentGameSate;
+        }
+      });
+      
+    }, 2000);
+</script>
  
 </body>
 </html>

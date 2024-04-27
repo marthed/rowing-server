@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<head>
+  <title>User Study</title>
+</head>
+<style>
+  html, body {
+    margin: 4px;
+    width: 100%;
+    background-color: aquamarine;
+  }
+  #main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .setting {
+    padding: 8px;
+    background-color: white;
+    margin-bottom: 4px;
+  }
+  button {
+    min-width: 50px;
+    min-height: 16px;
+  }
+
+  #score-headers {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    color: white;
+    background-color: black;
+    margin-bottom: 6px;
+  }
+
+  #score-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #scores {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 2px;
+    font-size: 12px;
+  }
+
+  .method-container {
+    background-color: white;
+    color: black;
+    min-height: 100px;
+    margin: 12px;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+
+  }
+
+  .method-container__header {
+    display: flex;
+    justify-content: center;
+    background-color: red;
+  }
+
+  .method-container__score {
+
+  }
+
+  input {
+    border: 0px;
+  }
+
+</style>
+<body>
+  <div id="main">
+  <div id="score-headers">HIGH SCORE</div>
+  <div id="score-menu"> <button id="get_scores">Refresh</button></div>
+  <div id="scores"></div>
+  <script>
+    const WebAPI = {
+      POST(url, data) {
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(result => {
+        // Do something with the response
+      }).catch(e => {
+        console.log(e);
+      })
+      },
+      GET(url) {
+        return fetch(url, {
+          method: 'GET',
+          headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((res) => res.text()).catch(e => console.log(e))
+    },
+    }
+  </script>
+  <script>
+    function toMinutesAndSeconds(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.round(seconds - minutes * 60);
+      return `${minutes}m ${remainingSeconds}s`;
+}
+  </script>
+  <script>
+
+   function GetScores() {
+      WebAPI.GET("http://localhost:3000/highscores").then(res =>  {
+        const scores = JSON.parse(res);
+        const methods = Object.keys(scores);
+        console.log(scores);
+
+
+        const elements = methods.map(method => {
+          console.log(method)
+          const element = document.createElement("div");
+          element.classList.add("method-container");
+
+          const header = document.createElement("div");
+          header.classList.add("method-container__header");
+          header.innerHTML = method;
+
+          element.appendChild(header);
+
+          const data = scores[method];
+
+          data.forEach((s, idx) => {
+            const scoreElement = document.createElement("div");
+            scoreElement.classList.add("method-container__score");
+            scoreElement.innerHTML = `${idx + 1}. ${s.participant} with ${
+              s.hitCount
+            } hits and time ${toMinutesAndSeconds(s.time)}`
+            element.appendChild(scoreElement);
+          })
+          return element;
+        });
+
+        document.getElementById("scores").innerHTML = "";
+
+        elements.forEach(element => {
+          document.getElementById("scores").append(element);
+        })
+
+        
+      
+    });
+    }
+
+    document.getElementById("get_scores").addEventListener("click", GetScores)
+
+  </script>
+
+
+ 
+</body>
+</html>

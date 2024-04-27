@@ -2,6 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const moment = require("moment");
 const dgram = require("dgram");
+const { GenerateHighscores } = require("./hitsRanking.js");
 
 const timezone = "Europe/Stockholm";
 
@@ -9,6 +10,7 @@ let participant = "P_DEMO";
 
 const routeMap = {
   "/": "static/index.rowing.html",
+  "/scores": "static/scores.html",
 };
 
 const prefixMapping = {
@@ -37,7 +39,7 @@ let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.194.119";
+const serverAddress = "192.168.234.218";
 
 const serverPort = 1234;
 
@@ -66,6 +68,19 @@ async function HandleGET(req, res) {
       res.write(data);
       res.end();
     });
+  } else if (req.url === "/state") {
+    res.setHeader("Content-Type", "application/json");
+    //res.writeHead(200);
+    res.end(currentGameState);
+  } else if (req.url === "/highscores") {
+    try {
+      console.log("GET SCORES");
+      const scores = await GenerateHighscores();
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify(scores));
+    } catch (error) {
+      console.log(error);
+    }
   } else {
     res.end("<h1>Sorry, page not found</h1>");
   }
