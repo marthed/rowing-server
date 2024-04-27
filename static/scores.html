@@ -43,6 +43,7 @@
 
   #scores {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     height: 100%;
     margin: 2px;
@@ -57,17 +58,21 @@
     display: flex;
     justify-content: center;
     flex-flow: column;
+    min-width: 200px;
 
   }
 
   .method-container__header {
     display: flex;
     justify-content: center;
-    background-color: red;
+    background-color: black;
+    color: white;
+    font-size: 24px;
+    padding: 6px;
   }
 
-  .method-container__score {
-
+  tr {
+    text-align: center;
   }
 
   input {
@@ -123,7 +128,6 @@
 
 
         const elements = methods.map(method => {
-          console.log(method)
           const element = document.createElement("div");
           element.classList.add("method-container");
 
@@ -133,16 +137,45 @@
 
           element.appendChild(header);
 
+          const table = document.createElement("table");
+          const tableHeader = document.createElement("tr");
+
+          const rank = document.createElement("th");
+          
+          const name = document.createElement("th")
+          name.innerHTML = "Name";
+          const hits = document.createElement("th")
+          hits.innerHTML = "Hits";
+          const time = document.createElement("th");
+          time.innerHTML = "Time";
+          tableHeader.append(rank, name, hits, time)
+          table.append(tableHeader);
+
           const data = scores[method];
 
           data.forEach((s, idx) => {
-            const scoreElement = document.createElement("div");
-            scoreElement.classList.add("method-container__score");
-            scoreElement.innerHTML = `${idx + 1}. ${s.participant} with ${
-              s.hitCount
-            } hits and time ${toMinutesAndSeconds(s.time)}`
-            element.appendChild(scoreElement);
+
+            const row = document.createElement("tr");
+
+            const s_rank = document.createElement("td");
+            s_rank.innerHTML = idx + 1 + ".";
+
+            const s_name = document.createElement("td");
+            s_name.innerHTML = s.participant;
+
+            const s_hits = document.createElement("td");
+            s_hits.innerHTML = s.hitCount;
+
+            const s_time = document.createElement("td");
+            s_time.innerHTML = toMinutesAndSeconds(s.time);
+
+            //scoreElement.classList.add("method-container__score");
+            row.append(s_rank, s_name, s_hits, s_time);
+            
+            table.append(row);
           })
+          element.append(table);
+
           return element;
         });
 
