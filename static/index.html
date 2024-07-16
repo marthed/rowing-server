@@ -27,18 +27,17 @@
 <body>
   <div id="main">
     <div class="setting">
-      <label for="method">Choose a steering method:</label>
-      <select name="Method" id="method">
-        <option value="head">Head</option>
-        <option value="hand">Hand</option>
-        <option value="feet">Feet</option>
+      <label for="speed_method">Choose a Speed method:</label>
+      <select name="Speed" id="speed_method">
+        <option value="hmd_c_distance">HMD_C_Distance</option>
+        <option value="leaning_speed">Leaning</option>
       </select>
     </div>
     <div class="setting">
-      <label for="travel">Choose a travel method:</label>
-      <select name="Travel" id="travel">
-        <option value="_2D">2D</option>
-        <option value="_3D">3D</option>
+      <label for="steering_method">Choose a Steering method:</label>
+      <select name="Steering" id="steering_method">
+        <option value="controller">Controller</option>
+        <option value="leaning_steer">Leaninig</option>
       </select>
     </div>
     <div class="setting">
@@ -48,18 +47,18 @@
     <div class="setting">
       <label for="track">Choose a Track:</label>
       <select name="Track" id="track">
-        <option value="1">1:2D</option>
-        <option value="2">2:2D</option>
-        <option value="3">3:2D</option>
-        <option value="4">4:3D</option>
-        <option value="5">5:3D</option>
-        <option value="6">6:3D</option>
+        <option value="1">Track 1</option>
+        <option value="2">Track 2</option>
+        <option value="3">Track 3</option>
+        <option value="4">Track 4</option>
+        <option value="5">Track 5</option>
+        <option value="6">Track 6</option>
       </select>
     </div>
-    <div class="setting">
+    <!-- <div class="setting">
       <label for="inverted">Toggle Inverted:</label>
       <button id="inverted">Toggle</button>
-    </div>
+    </div> -->
   </div>
   <script>
     const WebAPI = {
@@ -80,12 +79,12 @@
     }
   </script>
   <script>
-    function selectMethod(event) {
-      WebAPI.POST("http://localhost:3000/method", { value: event.target.value })
+    function SelectSpeedMethod(event) {
+      WebAPI.POST("http://localhost:3000/speed", { value: event.target.value })
     }
-    function selectTravel(event) {
+    function SelectSteeringMethod(event) {
       console.log(event.target.value)
-      WebAPI.POST("http://localhost:3000/travel", { value: event.target.value })
+      WebAPI.POST("http://localhost:3000/steering", { value: event.target.value })
     }
     function GoToNextState(event) {
       WebAPI.POST("http://localhost:3000/next")
@@ -96,24 +95,16 @@
     }
 
 
-    function selectTrack(event) {
+    function SelectTrack(event) {
       const track = Number(event.target.value);
 
-      if (track < 4) {
-        document.getElementById("travel").value = "_2D";
-        selectTravel({ target: { value: "_2D" }});
-      }
-      else {
-        document.getElementById("travel").value = "_3D";
-        selectTravel({ target: { value: "_3D" }});
-      }
       WebAPI.POST("http://localhost:3000/track", { value: track });
     }
 
-  document.getElementById('method').addEventListener('change', selectMethod);
-  document.getElementById('travel').addEventListener('change', selectTravel);
+  document.getElementById('speed_method').addEventListener('change', SelectSpeedMethod);
+  document.getElementById('steering_method').addEventListener('change', SelectSteeringMethod);
   document.getElementById("next").addEventListener("click", GoToNextState);
-  document.getElementById("track").addEventListener("change", selectTrack);
+  document.getElementById("track").addEventListener("change", SelectTrack);
   document.getElementById("inverted").addEventListener("click", ToggleInverted);
 
   </script>

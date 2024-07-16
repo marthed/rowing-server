@@ -2,31 +2,30 @@ const http = require("http");
 const fs = require("fs");
 const moment = require("moment");
 const dgram = require("dgram");
-const { GenerateHighscores } = require("./hitsRanking.js");
+//const { GenerateHighscores } = require("./hitsRanking.js");
 
 const timezone = "Europe/Stockholm";
 
 let participant = "P_DEMO";
 
 const routeMap = {
-  "/": "static/index.rowing.html",
+  "/": "static/index.html",
   "/scores": "static/scores.html",
 };
 
 const prefixMapping = {
-  "/method": "me",
-  "/travel": "tr",
+  "/speed": "sp",
+  "/steering": "st",
   "/next": "gs",
   "/track": "tk",
   "/inverted": "in",
 };
 
 const codeMappings = {
-  feet: 100,
-  head: 200,
-  hand: 300,
-  _2D: 400,
-  _3D: 500,
+  hmd_c_distance: 100,
+  leaning_speed: 200,
+  controller: 300,
+  leaning_steer: 400,
   1: 1,
   2: 2,
   3: 3,
@@ -39,7 +38,7 @@ let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.231.218"; // For the headset or machine running oculus link
+const serverAddress = "192.168.180.119"; // For the headset or machine running oculus link
 
 const serverPort = 1234;
 
@@ -90,8 +89,8 @@ async function HandlePOST(req, res) {
   try {
     console.log("Incoming post request: " + req.url);
     if (
-      req.url === "/method" ||
-      req.url === "/travel" ||
+      req.url === "/speed" ||
+      req.url === "/steering" ||
       req.url === "/track"
     ) {
       let body = "";
@@ -202,7 +201,7 @@ async function HandlePOST(req, res) {
         const fileName = participant + "_" + formattedDateTime + "_results.txt";
 
         console.log("Writing: " + fileName + " to disk...");
-        fs.writeFile("results/" + fileName, data, (err) => {
+        fs.writeFile("broom_results/" + fileName, data, (err) => {
           if (err) {
             console.error(err);
             res.statusCode = 500;
