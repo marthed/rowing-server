@@ -1,5 +1,7 @@
 # Server for user studies
 
+`Node v20.15.0`
+
 ### Setup
 
 1. Set participant variable (e.g. P1, P2...) in broomServer.js
