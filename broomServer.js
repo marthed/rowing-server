@@ -1,12 +1,36 @@
+
+
+/* ### BEFORE EXPERIMENT, SET ADRESS AND PARTICIPANT NUMBER  ### */
+const unityServerAddress = "192.168.231.119"; // For the headset or machine running oculus link
+let participant = "P_DEMO";
+
+/* ### */ 
+
+
 const http = require("http");
 const fs = require("fs");
 const moment = require("moment");
 const dgram = require("dgram");
 //const { GenerateHighscores } = require("./hitsRanking.js");
+const os = require("os");
+
+const serverPort = 1234;
+
+const networkInterfaces = os.networkInterfaces();
+let myServerAddress = "";
+
+for (const interfaceName in networkInterfaces) {
+  for (const network of networkInterfaces[interfaceName]) {
+    if (network.family === 'IPv4' && !network.internal) {
+      myServerAddress = network.address;
+    }
+  }
+}
+
+console.log('Your IP Address:', myServerAddress);
+console.log("Unity application IP Address: ", unityServerAddress);
 
 const timezone = "Europe/Stockholm";
-
-let participant = "P_DEMO";
 
 const routeMap = {
   "/": "static/index.html",
@@ -38,10 +62,6 @@ let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.180.119"; // For the headset or machine running oculus link
-
-const serverPort = 1234;
-
 // Close the socket when finished
 socket.on("close", () => {
   console.log("Socket closed");
@@ -51,6 +71,21 @@ socket.on("close", () => {
 socket.on("error", (error) => {
   console.error("Socket error:", error);
 });
+
+socket.send(
+  `ip;${myServerAddress}`,
+  serverPort,
+  unityServerAddress,
+  (error) => {
+    if (error) {
+      console.error("Error while sending UDP message:", error);
+    } else {
+      console.log(
+        `UDP message with ip: ${myServerAddress} sent successfully!`
+      );
+    }
+  }
+);
 
 async function HandleGET(req, res) {
   if (routeMap[req.url]) {
@@ -108,7 +143,7 @@ async function HandlePOST(req, res) {
           socket.send(
             `${prefixMapping[req.url]};${codeMappings[jsonData.value]}`,
             serverPort,
-            serverAddress,
+            unityServerAddress,
             (error) => {
               if (error) {
                 console.error("Error while sending UDP message:", error);
@@ -135,7 +170,7 @@ async function HandlePOST(req, res) {
       socket.send(
         `${prefixMapping[req.url]}`,
         serverPort,
-        serverAddress,
+        unityServerAddress,
         (error) => {
           if (error) {
             console.error("Error while sending UDP message:", error);
@@ -143,7 +178,7 @@ async function HandlePOST(req, res) {
             console.log(
               `UDP message with ${
                 prefixMapping[req.url]
-              } sent to ${serverAddress}:${serverPort}`
+              } sent to ${unityServerAddress}:${serverPort}`
             );
           }
         }

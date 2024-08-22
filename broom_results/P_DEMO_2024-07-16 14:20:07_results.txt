@@ -1,8 +1,0 @@
-steering_method,speed_method,hit,coin,time,direction,altitude,x,y,z,missdistance,traveldistance,hand x, hand y, hand z, left button, right button, head x, head y, head z, left toe, left heel, right toe, right heel
-ControllerMethod,LeaningMethod,True,0,0,Straight,Same,0,2.5,30,0,23.08371,0,0,0,0,0,0,0,0,0,0,0,0
-ControllerMethod,LeaningMethod,True,1,6.819996,Straight,Same,0,2.5,250,0,244.4117,0,0,0,0,0,0,0,0,0,0,0,0
-ControllerMethod,LeaningMethod,True,2,11.55999,Right,Up,103.3662,77.74443,429.0355,0,462.7794,0,0,0,0,0,0,0,0,0,0,0,0
-ControllerMethod,LeaningMethod,True,3,16.85999,Left,Up,103.3662,152.9889,635.7678,0,682.8859,0,0,0,0,0,0,0,0,0,0,0,0
-ControllerMethod,LeaningMethod,True,4,24.41999,Right,Up,206.7324,228.2333,814.8033,0,910.2431,0,0,0,0,0,0,0,0,0,0,0,0
-ControllerMethod,LeaningMethod,True,5,31.09999,Straight,Up,310.0986,303.4777,993.8387,0,1133.466,0,0,0,0,0,0,0,0,0,0,0,0
-ControllerMethod,LeaningMethod,True,6,35.31999,Right,Same,500.6241,303.4777,1103.839,0,1353.257,0,0,0,0,0,0,0,0,0,0,0,0
