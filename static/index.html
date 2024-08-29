@@ -55,6 +55,15 @@
         <option value="6">Track 6</option>
       </select>
     </div>
+    <div class="setting">
+      <label for="toggleMenu">Toggle Menu: </label>
+      <button id="toggleMenu">Toggle</button>
+    </div>
+    <div class="setting">
+      <label for="info">Get info:</label>
+      <button id="info">Info</button>
+    </div>
+
     <!-- <div class="setting">
       <label for="inverted">Toggle Inverted:</label>
       <button id="inverted">Toggle</button>
@@ -69,6 +78,19 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
+      })
+      .then(result => {
+        // Do something with the response
+      }).catch(e => {
+        console.log(e);
+      })
+      },
+      GET(url) {
+        fetch(url, {
+          method: 'GET',
+          headers: {
+          'Content-Type': 'application/json'
+        }
       })
       .then(result => {
         // Do something with the response
@@ -94,6 +116,9 @@
       WebAPI.POST("http://localhost:3000/inverted")
     }
 
+    function GetInfo(){
+      WebAPI.GET("http://localhost:3000/info")
+    }
 
     function SelectTrack(event) {
       const track = Number(event.target.value);
@@ -101,11 +126,17 @@
       WebAPI.POST("http://localhost:3000/track", { value: track });
     }
 
+    function ToggleMenu() {
+      WebAPI.POST("http://localhost:3000/toggleMenu");
+    }
+
   document.getElementById('speed_method').addEventListener('change', SelectSpeedMethod);
   document.getElementById('steering_method').addEventListener('change', SelectSteeringMethod);
   document.getElementById("next").addEventListener("click", GoToNextState);
   document.getElementById("track").addEventListener("change", SelectTrack);
-  document.getElementById("inverted").addEventListener("click", ToggleInverted);
+ // document.getElementById("inverted").addEventListener("click", ToggleInverted);
+  document.getElementById("info").addEventListener("click", GetInfo);
+  document.getElementById("toggleMenu").addEventListener("click", ToggleMenu);
 
   </script>
  

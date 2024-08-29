@@ -1,8 +1,8 @@
 
 
 /* ### BEFORE EXPERIMENT, SET ADRESS AND PARTICIPANT NUMBER  ### */
-const unityServerAddress = "192.168.231.119"; // For the headset or machine running oculus link
-let participant = "P_DEMO";
+const unityServerAddress = "192.168.248.218"; // For the headset or machine running oculus link
+let participant = "P5";
 
 /* ### */ 
 
@@ -22,7 +22,7 @@ let myServerAddress = "";
 for (const interfaceName in networkInterfaces) {
   for (const network of networkInterfaces[interfaceName]) {
     if (network.family === 'IPv4' && !network.internal) {
-      myServerAddress = network.address;
+      myServerAddress = network.address.replace(/[^0-9.]/g, '')
     }
   }
 }
@@ -43,6 +43,8 @@ const prefixMapping = {
   "/next": "gs",
   "/track": "tk",
   "/inverted": "in",
+  "/info": "if",
+  "/toggleMenu": "tm",
 };
 
 const codeMappings = {
@@ -115,7 +117,35 @@ async function HandleGET(req, res) {
     } catch (error) {
       console.log(error);
     }
-  } else {
+  }
+  else if (req.url === "/info") {
+    try {
+      console.log("Get info from unity application...");
+      socket.send(
+        `${prefixMapping[req.url]}`,
+        serverPort,
+        unityServerAddress,
+        (error) => {
+          if (error) {
+            console.error("Error while sending UDP message:", error);
+          } else {
+            console.log(
+              "UDP message with info request sent successfully"
+            );
+          }
+        }
+      );
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/plain");
+      res.end("GET request received successfully!");
+    } catch (error) {
+      console.log(error);
+      res.statusCode = 400;
+      res.setHeader("Content-Type", "text/plain");
+      res.end("Error");
+    }
+  }  
+  else {
     res.end("<h1>Sorry, page not found</h1>");
   }
 }
@@ -166,7 +196,7 @@ async function HandlePOST(req, res) {
         }
       });
       return;
-    } else if (req.url === "/next" || req.url === "/inverted") {
+    } else if (req.url === "/next" || req.url === "/inverted" || req.url === "/toggleMenu") {
       socket.send(
         `${prefixMapping[req.url]}`,
         serverPort,
@@ -269,7 +299,30 @@ async function HandlePOST(req, res) {
         res.end("Participant name updated");
       });
     }
-  } catch (e) {
+    else if (req.url === "/info") {
+      let body = "";
+      // Collect data from the request
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
+
+      // Process the collected data
+      req.on("end", () => {
+        console.log("Data received");
+        const data = decodeURIComponent(body);
+        const [speed, steering, track, state] = data.split(";");
+
+        console.log(`Selected speed method: ${speed}`);
+        console.log(`Selected steering method: ${steering}`);
+        console.log(`Selected track: ${track}`);
+        console.log(`Current state: ${state}`);
+        
+        res.statusCode = 200;
+        res.end("Participant name updated");
+      });
+    }
+  }
+   catch (e) {
     console.log(e);
   }
 }
