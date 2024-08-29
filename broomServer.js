@@ -261,7 +261,7 @@ async function HandlePOST(req, res) {
         const formattedDateTime = moment
           .utc()
           .local()
-          .format("YYYY-MM-DD HH:mm:ss");
+          .format("YYYY-MM-DD HH:mm:ss").replace(/[- :]/g, '_')
 
         const fileName = participant + "_" + formattedDateTime + "_results.txt";
 
