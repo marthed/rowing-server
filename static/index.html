@@ -81,6 +81,10 @@
       <button id="toggleMenu">Toggle</button>
     </div>
     <div class="setting">
+      <label for="locomotion">Toggle Locomotion</label>
+      <button id="locomotion">Toggle</button>
+    </div>
+    <div class="setting">
       <label for="info">Get info:</label>
       <button id="info">Info</button>
     </div>
@@ -150,6 +154,10 @@
     function ToggleMenu() {
       WebAPI.POST("http://localhost:3000/toggleMenu");
     }
+    
+    function ToggleLocomotion() {
+      WebAPI.POST("http://localhost:3000/toggleLocomotion");
+    }
 
   document.getElementById('speed_method').addEventListener('change', SelectSpeedMethod);
   document.getElementById('steering_method').addEventListener('change', SelectSteeringMethod);
@@ -158,6 +166,7 @@
  // document.getElementById("inverted").addEventListener("click", ToggleInverted);
   document.getElementById("info").addEventListener("click", GetInfo);
   document.getElementById("toggleMenu").addEventListener("click", ToggleMenu);
+  document.getElementById("locomotion").addEventListener("click", ToggleLocomotion);
 
   </script>
  

@@ -45,6 +45,7 @@ const prefixMapping = {
   "/inverted": "in",
   "/info": "if",
   "/toggleMenu": "tm",
+  "/toggleLocomotion": "tl",
 };
 
 const codeMappings = {
@@ -196,7 +197,7 @@ async function HandlePOST(req, res) {
         }
       });
       return;
-    } else if (req.url === "/next" || req.url === "/inverted" || req.url === "/toggleMenu") {
+    } else if (req.url === "/next" || req.url === "/inverted" || req.url === "/toggleMenu" || req.url === "/toggleLocomotion") {
       socket.send(
         `${prefixMapping[req.url]}`,
         serverPort,
