@@ -1,8 +1,8 @@
 
 
 /* ### BEFORE EXPERIMENT, SET ADRESS AND PARTICIPANT NUMBER  ### */
-const unityServerAddress = "192.168.248.218"; // For the headset or machine running oculus link
-let participant = "P5";
+const unityServerAddress = "192.168.249.214"; // For the headset or machine running oculus link
+let participant = "TEMP";
 
 /* ### */ 
 
@@ -48,10 +48,10 @@ const prefixMapping = {
 };
 
 const codeMappings = {
-  hmd_c_distance: 100,
-  leaning_speed: 200,
-  controller: 300,
-  leaning_steer: 400,
+  controller_speed: 100,
+  headset_speed: 200,
+  controller_steer: 300,
+  headset_steer: 400,
   1: 1,
   2: 2,
   3: 3,

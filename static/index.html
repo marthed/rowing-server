@@ -23,21 +23,42 @@
     min-height: 16px;
   }
 
+  button:active {
+    background-color: brown;
+    color: white;
+  }
+
+  #next {
+    background-color:cadetblue;
+    color: white;
+    height: 30px;
+    min-width: 80px;
+  }
+
+  #next:hover {
+    background-color: darkgreen;
+    color: white;
+  }
+
+  #next:active {
+    background-color: brown;
+  }
+
 </style>
 <body>
   <div id="main">
     <div class="setting">
       <label for="speed_method">Choose a Speed method:</label>
       <select name="Speed" id="speed_method">
-        <option value="hmd_c_distance">HMD_C_Distance</option>
-        <option value="leaning_speed">Leaning</option>
+        <option value="controller_speed">Controller</option>
+        <option value="headset_speed">Headset</option>
       </select>
     </div>
     <div class="setting">
       <label for="steering_method">Choose a Steering method:</label>
       <select name="Steering" id="steering_method">
-        <option value="controller">Controller</option>
-        <option value="leaning_steer">Leaninig</option>
+        <option value="controller_steer">Controller</option>
+        <option value="headset_steer">Headset</option>
       </select>
     </div>
     <div class="setting">
