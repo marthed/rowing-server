@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const resultsFolderPath = "./results";
+const resultsFolderPath = "./broom_results";
 const outputFile = "./combined.txt";
 
 // Read all files in the results folder
