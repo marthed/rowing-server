@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const resultsFolderPath = "./results";
+const resultsFolderPath = "./broom_results";
 
 // Function to convert seconds to minutes and seconds format
 function toMinutesAndSeconds(seconds) {
@@ -30,8 +30,8 @@ async function GenerateHighscores() {
 
           const labels = lines[0].split(",");
 
-          const methodIndex = labels.findIndex((label) => label === "method");
-          const modeIndex = labels.findIndex((label) => label === "mode");
+          const methodIndex = labels.findIndex((label) => label === "steering_method");
+          const modeIndex = labels.findIndex((label) => label === "speed_method");
           const hitIndex = labels.findIndex((label) => label === "hit");
           const timeIndex = labels.findIndex((label) => label === "time");
 
@@ -122,6 +122,8 @@ async function GenerateHighscores() {
   });
 }
 
-module.exports = {
-  GenerateHighscores,
-};
+
+GenerateHighscores();
+// module.exports = {
+//   GenerateHighscores,
+// };
