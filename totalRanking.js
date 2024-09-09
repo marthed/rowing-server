@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const resultsFolderPath = "./results";
+const resultsFolderPath = "./broom_results";
 
 let participantData = [];
 let totalScores = {}; // To keep track of total scores across all categories
@@ -30,8 +30,8 @@ async function GenerateHighscores() {
 
           const labels = lines[0].split(",");
 
-          const methodIndex = labels.findIndex((label) => label === "method");
-          const modeIndex = labels.findIndex((label) => label === "mode");
+          const methodIndex = labels.findIndex((label) => label === "steering_method");
+          const modeIndex = labels.findIndex((label) => label === "speed_method");
           const hitIndex = labels.findIndex((label) => label === "hit");
           const timeIndex = labels.findIndex((label) => label === "time");
 
@@ -126,14 +126,15 @@ async function GenerateHighscores() {
 
       // Log sorted total scores
       console.log("\nSorted Total Scores Across All Categories:");
-      // sortedTotalScoresArray.forEach((entry, idx) => {
-      //   console.log(`${idx + 1}. ${entry.participant}: ${entry.score} points`);
-      // });
+      sortedTotalScoresArray.forEach((entry, idx) => {
+        console.log(`${idx + 1}. ${entry.participant}: ${entry.score} points`);
+      });
       res(sortedTotalScoresArray);
     });
   });
 }
 
-module.exports = {
-  GenerateHighscores,
-};
+GenerateHighscores();
+// module.exports = {
+//   GenerateHighscores,
+// };
