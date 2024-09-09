@@ -1,8 +1,8 @@
 
 
 /* ### BEFORE EXPERIMENT, SET ADRESS AND PARTICIPANT NUMBER  ### */
-const unityServerAddress = "192.168.48.214"; // For the headset or machine running oculus link
-let participant = "P16";
+const unityServerAddress = "192.168.48.237"; // For the headset or machine running oculus link
+let participant = "P18";
 
 /* ### */ 
 
