@@ -1,0 +1,17 @@
+steering_method,speed_method,hit,coin,time,direction,distance,altitude,sharpness,missdistance,traveldistance,
+ControllerMethod,LeaningMethod,True,0,0,Straight,Short,Same,Default,0,4734.9
+ControllerMethod,LeaningMethod,True,1,10.76001,Straight,Medium,Up,Smooth,0,5137.139
+ControllerMethod,LeaningMethod,True,2,19.47998,Straight,Long,Up,Smooth,0,5741.82
+ControllerMethod,LeaningMethod,True,3,23.34009,Straight,Medium,Same,Default,0,6145.493
+ControllerMethod,LeaningMethod,True,4,26.69995,Right,Medium,Same,Sharp,0,6544.842
+ControllerMethod,LeaningMethod,False,5,33.1001,Left,Long,Up,Default,3.649422,7162.714
+ControllerMethod,LeaningMethod,False,6,34.97998,Right,Short,Same,Default,180.3939,7361.911
+ControllerMethod,LeaningMethod,True,7,41.65991,Left,Long,Same,Sharp,0,7932.688
+ControllerMethod,LeaningMethod,True,8,43.3999,Straight,Short,Down,Default,0,8137.571
+ControllerMethod,LeaningMethod,False,9,45.34009,Right,Short,Up,Sharp,1.856109,8417.271
+ControllerMethod,LeaningMethod,False,10,47.14014,Left,Short,Up,Default,152.0913,8615.095
+ControllerMethod,LeaningMethod,True,11,52.02002,Left,Medium,Down,Smooth,0,9071.522
+ControllerMethod,LeaningMethod,True,12,57.65991,Left,Long,Same,Smooth,0,9677.616
+ControllerMethod,LeaningMethod,False,13,61.5,Right,Medium,Down,Sharp,5.514805,10158.59
+ControllerMethod,LeaningMethod,False,14,62.97998,Right,Short,Down,Smooth,12.01843,10379.51
+ControllerMethod,LeaningMethod,True,15,66.52002,Straight,Long,Down,Sharp,0,10895.25
