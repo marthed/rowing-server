@@ -2,7 +2,11 @@ const http = require("http");
 const fs = require("fs");
 const moment = require("moment");
 const dgram = require("dgram");
+
 const { GenerateHighscores } = require("./hitsRanking.js");
+const SetupANTServer = require('./SetupANTServer.js');
+const SetupArduino = require('./SetupArduino.js');
+const SetupOculus = require('./SetupOculus.js');
 
 const timezone = "Europe/Stockholm";
 
@@ -35,12 +39,14 @@ const codeMappings = {
   6: 6,
 };
 
+
 let currentGameState = "";
 
 const socket = dgram.createSocket("udp4");
 
-const serverAddress = "192.168.231.218"; // For the headset or machine running oculus link
 
+// Oculus
+const serverAddress = "192.168.111.218"; 
 const serverPort = 1234;
 
 // Close the socket when finished
@@ -52,6 +58,13 @@ socket.on("close", () => {
 socket.on("error", (error) => {
   console.error("Socket error:", error);
 });
+
+SetupANTServer(socket, serverAddress);
+SetupArduino(serverAddress);
+SetupOculus(socket, serverAddress, serverPort);
+
+let myServerAddress = "";
+
 
 async function HandleGET(req, res) {
   if (routeMap[req.url]) {

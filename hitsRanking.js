@@ -123,7 +123,7 @@ async function GenerateHighscores() {
 }
 
 
-GenerateHighscores();
-// module.exports = {
-//   GenerateHighscores,
-// };
+//GenerateHighscores();
+module.exports = {
+  GenerateHighscores,
+};

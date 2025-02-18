@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon broomServer.js",
+    "start:rowing": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "csv-parser": "^3.0.0",
+    "mdns": "^2.7.2",
     "moment": "^2.29.4",
     "nmap": "^1.1.0",
     "node-nmap": "^4.0.0"
